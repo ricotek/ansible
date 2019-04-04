@@ -5,6 +5,6 @@
       - CriticalUpdates
       - UpdateRollups
     state: installed
-    register: Output
+    register: update_result
     log_path: C:\ansible_wu.txt
     reboot: yes
