@@ -1,0 +1,17 @@
+---
+- hosts: windows
+  gather_facts: false
+  tasks:
+    - name: Disable enhanced exit codes
+      win_shell: 'choco feature disable -n useEnhancedExitCodes'
+      changed_when: False
+      ## do not fail in case chocolatey is not the latest and this feature is not available
+      failed_when: False
+    - name: Installing...GoogleChrome, notepadplusplus, 7zip
+      win_chocolatey:
+        name:
+          - notepadplusplus
+          - googlechrome
+          - 7zip
+          - treesize
+          state: present

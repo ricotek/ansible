@@ -1,0 +1,2 @@
+#!/bin/sh 
+ansible windows -m win_updates -a "category_name=SecurityUpdates reboot=yes state=installed"
