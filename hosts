@@ -1,14 +1,6 @@
-[loadbalancer]
-lb01
-
-[webserver]
-app01
-app02
-
-[database]
-db01
-
 [windows]
 serv1
 serv2
-serv2
+serv3
+
+# [centos]
