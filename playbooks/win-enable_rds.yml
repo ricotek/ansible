@@ -1,6 +1,0 @@
----
-- name: Enable Remote Desktop
-  hosts: windows
-  gather_facts: false
-  roles:
-    - win-install_bat

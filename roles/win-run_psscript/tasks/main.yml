@@ -1,0 +1,2 @@
+- name: IISRESET
+  win_shell: C:\Temp\iisreset.ps1
