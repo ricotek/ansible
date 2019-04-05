@@ -1,2 +1,2 @@
-- name: IISRESET
-  win_shell: C:\Temp\iisreset.ps1
+- name: win-task_extend-disk
+  win_shell: C:\Temp\win-task_extend-disk.ps1
