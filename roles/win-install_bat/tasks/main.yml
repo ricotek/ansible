@@ -1,6 +1,0 @@
----
-# tasks file for win-install_bat
-- name: execute script
-  win_command: cmd.exe
-  args:
-    stdin: reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f

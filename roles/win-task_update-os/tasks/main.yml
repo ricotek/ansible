@@ -1,0 +1,10 @@
+- name: Install all security, critical, and rollup updates without a scheduled tasks
+  win_updates:
+    category_names:
+      - SecurityUpdates
+      - CriticalUpdates
+      - UpdateRollups
+    state: installed
+    register: update_result
+    log_path: C:\ansible_wu.txt
+    reboot: yes

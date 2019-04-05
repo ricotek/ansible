@@ -1,2 +1,0 @@
-- name: Change DNS servers
-  win_shell: C:\Temp\changedns.bat

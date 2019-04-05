@@ -1,7 +1,0 @@
----
-  - hosts: windows
-    gather_facts: false
-    role:
-      - win-choco
-
-  

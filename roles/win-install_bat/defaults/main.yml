@@ -1,7 +1,0 @@
----
-# defaults file for win-install_bat
-ansible_user: Administrator
-ansible_password: Edna@swp%01
-ansible_port: 5986
-ansible_connection: winrm
-ansible_winrm_server_cert_validation: ignore

@@ -1,4 +1,0 @@
-- name: Extend Disk
-  win_partition:
-    drive_letter: C
-    partition_size: -1
