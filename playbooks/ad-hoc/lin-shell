@@ -1,3 +1,2 @@
 #! /bin/sh
-ansible -m shell -a ‘nameofcmd’ all
-
+ansible -m shell -a ‘df -h’ all

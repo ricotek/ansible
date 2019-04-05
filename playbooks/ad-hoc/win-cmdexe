@@ -1,0 +1,2 @@
+#! /bin/sh
+ansible serv1 -m win_command -a "ipconfig /all"

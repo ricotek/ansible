@@ -1,3 +1,0 @@
-#! /bin/sh
-ansible windows -m win_command -a "ipconfig /all"
-
