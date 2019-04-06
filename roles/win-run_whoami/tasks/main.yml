@@ -1,0 +1,3 @@
+- name: get whoami information
+  win_whoami:
+# tasks file for win-run_whoami

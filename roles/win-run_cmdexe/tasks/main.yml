@@ -1,2 +1,3 @@
 - name: Run Bat File
-  win_shell: C:\Temp\nameofbat.bat 
+  win_shell: C:\Temp\script.bat >> c:\Temp\script-test-log.txt
+  
