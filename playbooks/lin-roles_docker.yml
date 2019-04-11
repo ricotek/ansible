@@ -1,0 +1,5 @@
+- hosts: docker
+  become: true
+  gather_facts: false
+  roles:
+    - lin-roles_docker

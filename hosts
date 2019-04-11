@@ -7,3 +7,7 @@ serv3
 centos1
 centos2
 centos3
+
+[ubuntu]
+docker1
+docker2
