@@ -1,0 +1,8 @@
+---
+- hosts: webserver
+  become: true
+  tasks:
+  copy:
+    src: ./foo.conf
+    dest: /etc/foo.conf
+    mode: 0644  

@@ -1,0 +1,56 @@
+---
+- hosts: webserver
+  become: true
+  tasks:
+    - name: ensure apt is updated & install pre-requsite packages
+      command: apt-get update && apt-get upgrade -y
+      apt: name={{item}} state=present
+      with_items:
+         - apache2
+         - libapache2-mod-wsgi
+         - python-pip
+         - python-virtualenv
+         - python-mysqldb
+      tags: [ 'packages' ]
+
+    - name: ensure apache2 started
+      service: name=apache2 state=started enabled=yes
+      tags: [ 'service' ]
+
+    - name: ensure mod_wsgi is enabled
+      apache2_module: state=present name=wsgi
+      notify: restart apache2
+      tags: [ 'configure' ]
+
+    - name: copy demo app source
+      copy: src=/Users/rrico/ansible/demo/app/ dest=/var/www/demo mode=0755
+      tags: [ 'configure' ]
+
+    - name: copy apache virtual host config
+      copy: src=/Users/rrico/ansible/demo/demo.conf dest=/etc/apache2/sites-available mode=0755
+      notify: restart apache2
+      tags: [ 'configure' ]
+
+    - name: setup python virtualenv
+      pip: requirements=/var/www/demo/requirements.txt virtualenv=/var/www/demo/.venv
+      notify: restart apache2
+      tags: [ 'system' ]
+
+    - name: de-activate default apache sites
+      file: path=/etc/apache2/sites-enabled/000-default.conf state=absent
+      notify: restart apache2
+      tags: [ 'system' ]
+
+    - name: activate demo site
+      file: src=/etc/apache2/sites-available/demo.conf dest=/etc/apache2/sites-enabled/demo.conf state=link
+      notify: restart apache2
+      tags: [ 'configure' ]
+
+  handlers:
+    - name: restart apache2
+      service: name=apache2 state=restarted
+
+
+    #- name copy apache virtual host config file
+    #  copy: src=demo/demo.conf dest=/etc/apache2/sites-available mode=0755
+    #  notify: restart apache2
