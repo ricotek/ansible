@@ -1,0 +1,11 @@
+---
+
+- hosts: centos
+  gather_facts: false
+  become: true
+
+  tasks:
+    - name: upgrade all packages
+      yum:
+        name: '*'
+        state: latest

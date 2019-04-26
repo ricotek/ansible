@@ -1,12 +1,22 @@
+## Ansible inventory file
+[kube]
+kube1
+kube2
+kube3
+kube4
+
+[local]
+localhost ansible_connection=local
+
 [windows]
 serv1
 serv2
 serv3
 
 [centos]
-centos1
-centos2
-centos3
+centos5
+centos6
+centos7
 
 [docker]
 docker1
