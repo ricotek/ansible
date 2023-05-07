@@ -1,0 +1,86 @@
+- name: Install a list of prerequisites 
+  ansible.builtin.apt:
+    pkg:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gnupg-agent
+    - software-properties-common
+    state: latest
+
+- name: Add source repo and key for k8s
+  shell: |
+     curl -fsSL  https://packages.cloud.google.com/apt/doc/apt-key.gpg|sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/k8s.gpg
+     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+     echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+     apt update
+  register: shell_output
+
+- name: install required packages
+  ansible.builtin.apt:
+    pkg:
+    - wget
+    - curl
+    - vim
+    - git 
+    - kubelet
+    - kubeadm
+    - kubectl
+    state: latest
+
+- name: hold & confirm k8s
+  shell: |
+     apt-mark hold kubelet kubeadm kubectl
+     kubectl version --client && kubeadm version
+  register: shell_output
+
+- name: Disable swap, load kernel modules & set parameters for Kubernetes
+  shell: |
+     swapoff -a
+     sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+     tee /etc/modules-load.d/containerd.conf <<EOF \
+     overlay \
+     br_netfilter
+     modprobe overlay
+     modprobe br_netfilter
+     tee /etc/sysctl.d/kubernetes.conf <<EOF \
+     net.bridge.bridge-nf-call-ip6tables = 1 \
+     net.bridge.bridge-nf-call-iptables = 1 \
+     net.ipv4.ip_forward = 1 \
+     EOF
+     sysctl --system
+  register: shell_output
+
+- name: Add source repo and key for docker
+  shell: |
+     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+     apt-key fingerprint 0EBFCD88
+     add-apt-repository -y \
+     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+     $(lsb_release -cs) \
+     stable"
+  register: shell_output
+
+- name: Install docker
+  ansible.builtin.apt:
+    pkg:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    state: latest
+  
+- name: Test docker
+  ansible.builtin.shell: docker run hello-world
+  args:
+    executable: /bin/bash
+
+- name: Run post config stuff for docker and compose...
+  shell: |
+     groupadd docker
+     usermod -aG docker rrico
+     systemctl enable docker
+     echo manual | sudo tee /etc/init/docker.override
+     curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+     chmod +x /usr/local/bin/docker-compose
+     docker-compose --version
+  register: shell_output

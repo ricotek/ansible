@@ -1,0 +1,6 @@
+- name: Run Task
+  hosts: nodes
+  gather_facts: false
+  roles:
+      - os-updates
+      - install-docker
