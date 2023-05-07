@@ -3,4 +3,4 @@
   gather_facts: false
   roles:
       - os-updates
-      - install-docker
+      - install-k8s
