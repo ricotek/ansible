@@ -1,13 +1,3 @@
-- name: Install a list of prerequisites 
-  ansible.builtin.apt:
-    pkg:
-    - apt-transport-https
-    - ca-certificates
-    - curl
-    - gnupg-agent
-    - software-properties-common
-    state: latest
-
 - name: Add source repo and key for docker
   shell: |
      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -42,31 +32,47 @@
      docker-compose --version
   register: shell_output
 
-- name: Add the Kubernetes signing key & the Kubernetes package repository
+- name: Install a list of prerequisites 
+  ansible.builtin.apt:
+    pkg:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gnupg-agent
+    - software-properties-common
+    state: latest
+
+- name: Add source repo and key for k8s
   shell: |
-     curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg \
-     echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
+     curl -fsSL  https://packages.cloud.google.com/apt/doc/apt-key.gpg|sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/k8s.gpg
+     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+     echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list 
      apt update
   register: shell_output
 
-- name: Install Kubernetes
+- name: install required packages
   ansible.builtin.apt:
     pkg:
-    - kubeadm
+    - wget
+    - vim
+    - git 
     - kubelet
+    - kubeadm
     - kubectl
-    - kubernetes-cni
     state: latest
 
-- name: Mark hold
-  ansible.builtin.shell: apt-mark hold kubelet kubeadm kubectl
-  args:
-    executable: /bin/bash
+- name: hold & confirm k8s
+  shell: |
+     apt-mark hold kubelet kubeadm kubectl
+     kubectl version --client && kubeadm version
+  register: shell_output
 
 - name: Disable swap, load kernel modules & set parameters for Kubernetes
   shell: |
      swapoff -a
      sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+     mount -a
+     free -h
      tee /etc/modules-load.d/containerd.conf <<EOF \
      overlay \
      br_netfilter
@@ -80,4 +86,15 @@
      sysctl --system
   register: shell_output
 
-## run on master node kubeadm init --control-plane-endpoint=
+- name: Initialize control plane, enable kubelet service...
+  shell: |
+     lsmod | grep br_netfilter
+     systemctl enable kubelet
+     kubeadm config images pull
+     kubeadm init \
+     --pod-network-cidr=10.244.0.0/16
+     kubeadm init \
+     --pod-network-cidr=10.244.0.0/16 \
+     --upload-certs \
+     --control-plane-endpoint=node1.ricotek.internal 
+  register: shell_output
