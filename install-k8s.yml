@@ -1,38 +1,24 @@
-- name: Add source repo and key for docker
+- name: prep kernel & add cri-o repo
   shell: |
-     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-     apt-key fingerprint 0EBFCD88
-     add-apt-repository -y \
-     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-     $(lsb_release -cs) \
-     stable"
+     modprobe overlay
+     modprobe br_netfilter
+     tee /etc/sysctl.d/kubernetes.conf<<EOF
+     net.bridge.bridge-nf-call-ip6tables = 1
+     net.bridge.bridge-nf-call-iptables = 1
+     net.ipv4.ip_forward = 1
+     EOF
+     sysctl --system
+     sudo su -
+     OS="xUbuntu_20.04"
+     VERSION=1.26
+     echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /" > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+     echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /" > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
+     curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:$VERSION/$OS/Release.key | apt-key add -
+     curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | apt-key add -
+     apt-get update
   register: shell_output
 
-- name: Install docker
-  ansible.builtin.apt:
-    pkg:
-    - docker-ce
-    - docker-ce-cli
-    - containerd.io
-    state: latest
-  
-- name: Test docker
-  ansible.builtin.shell: docker run hello-world
-  args:
-    executable: /bin/bash
-
-- name: Run post config stuff for docker and compose...
-  shell: |
-     groupadd docker
-     usermod -aG docker rrico
-     systemctl enable docker
-     echo manual | sudo tee /etc/init/docker.override
-     curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-     chmod +x /usr/local/bin/docker-compose
-     docker-compose --version
-  register: shell_output
-
-- name: Install a list of prerequisites 
+- name: Install a list of prerequisites & cri-o 
   ansible.builtin.apt:
     pkg:
     - apt-transport-https
@@ -40,7 +26,19 @@
     - curl
     - gnupg-agent
     - software-properties-common
+    - cri-o 
+    - cri-o-runc
     state: latest
+
+- name: Update CRI-O CIDR subnet & Start and enable Service
+  shell: |
+     sed -i 's/10.85.0.0/192.168.0.0/g' /etc/cni/net.d/100-crio-bridge.conf
+     sed -i 's/10.85.0.0/192.168.0.0/g' /etc/cni/net.d/100-crio-bridge.conflist
+     sudo systemctl daemon-reload
+     systemctl restart crio
+     systemctl enable crio
+     systemctl status crio
+  register: shell_output
 
 - name: Add source repo and key for k8s
   shell: |
@@ -50,7 +48,7 @@
      apt update
   register: shell_output
 
-- name: install required packages
+- name: install required packages & kubernetes stuff
   ansible.builtin.apt:
     pkg:
     - wget
@@ -90,11 +88,12 @@
   shell: |
      lsmod | grep br_netfilter
      systemctl enable kubelet
-     kubeadm config images pull
+     kubeadm config images pull --cri-socket unix:///var/run/crio/crio.sock
      kubeadm init \
-     --pod-network-cidr=10.244.0.0/16
+     --pod-network-cidr=192.168.0.0/16 \
+     --cri-socket unix:///var/run/crio/crio.sock 
      kubeadm init \
-     --pod-network-cidr=10.244.0.0/16 \
+     --pod-network-cidr=192.168.0.0/16 \
      --upload-certs \
-     --control-plane-endpoint=node1.ricotek.internal 
+     --control-plane-endpoint=k8s-cluster.ricotek.com
   register: shell_output
