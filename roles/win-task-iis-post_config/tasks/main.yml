@@ -1,0 +1,95 @@
+---
+# tasks file for win-task-iis-post_config
+- name: Add "{{ AppDevGrp }}" to a local IIS group
+  win_group_membership:
+    name: IIS_IUSRS
+    members:
+      - "{{ iisUser1 }}"
+    state: present
+
+- name: Add a local and domain user to a local Remote Desktop Users group
+  win_group_membership:
+    name: Remote Desktop Users
+    members:
+      - "{{ domainAdmins }}"
+      - "{{ devopsAdmins }}"
+      - "{{ devAdmins }}"
+      - "{{ qaAdmins }}"
+    state: present
+
+- name: Add a local and domain user to a local Administrator group
+  win_group_membership:
+    name: Administrators
+    members:
+      - "{{ domainAdmins }}"
+      - "{{ devopsAdmins }}"
+      - "{{ devAdmins }}"
+      - "{{ svcDeploy }}"
+      - "{{ qaAdmins }}"
+    state: present
+
+- name: Grant full rights to C:\TXMD\ for "{{ iisUser1 }}" group
+  win_acl:
+    path: C:\TXMD\
+    user: "{{ iisUser1 }}"
+    rights: FullControl
+    type: allow
+    state: present
+    inherit: ContainerInherit, ObjectInherit
+    propagation: 'None'
+
+- name: Grant full rights to C:\TXMD\ for SvcDeploy acct
+  win_acl:
+    path: C:\TXMD\
+    user: "{{ svcDeploy }}"
+    rights: FullControl
+    type: allow
+    state: present
+    inherit: ContainerInherit, ObjectInherit
+    propagation: 'None'
+
+- name: Create a new service named vps.rxintake.surescripts.service
+  win_service:
+    name: vps.rxintake.surescripts.service
+    path: C:\TXMD\Services\vps.rxintake.surescripts.service\vps.rxintake.surescripts.worker.exe
+    display_name: vps.rxintake.surescripts.service
+    description: This service is used to get order responses from pharmacies.
+
+- name: Set the log on user to a domain account for TXMD.ScriptsEngine.SureScriptsService
+  win_service:
+    name: vps.rxintake.surescripts.service
+    state: stopped
+    username: "{{ sureScriptsUser }}"
+    password:  "{{ sureScriptsPasswd }}"
+
+- name: Grant domain account the SeServiceLogonRight user right
+  ansible.windows.win_user_right:
+    name: SeServiceLogonRight
+    users:
+    - vcrx\svcdeploy
+    action: add
+
+# - name: Set service startup mode to auto and ensure it is started
+#   ansible.windows.win_service:
+#     name: W3SVC
+#     start_mode: auto
+#     state: started
+
+- name: Add WWW WebShare
+  ansible.windows.win_share:
+    name: WWW
+    description: WWW WebShare
+    path: C:\TXMD\
+    list: no
+    full: Administrators
+    read: Everyone
+
+- name: Change the hostname to "{{ hostName }}"
+  ansible.windows.win_hostname:
+    name: "{{ hostName }}"
+  register: res
+
+- name: Reboot
+  ansible.windows.win_reboot:
+  when: res.reboot_required
+

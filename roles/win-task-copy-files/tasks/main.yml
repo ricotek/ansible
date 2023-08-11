@@ -1,0 +1,15 @@
+- name: Copy files onto Windows Servers
+  win_copy:
+    src: "{{ siteFiles }}"
+    dest: "{{ tempPath }}"
+
+- name: Unzip site-files
+  community.windows.win_unzip:
+    src: "{{ unzipSource }}"
+    dest: "{{ tempPath }}"
+
+
+#- name: Copy folder contents recursively
+#  ansible.windows.win_copy:
+#    src: site-files/
+#    dest: C:\Temp

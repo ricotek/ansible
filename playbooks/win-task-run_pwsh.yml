@@ -1,0 +1,6 @@
+---
+- name: Run Playbook
+  hosts: iisSandbox
+  gather_facts: false
+  roles:
+  - win-task-run_pwsh

@@ -1,0 +1,6 @@
+---
+- name: Run Playbook
+  hosts: winmgmt
+  gather_facts: true
+  roles:
+  - win-task-create_dns

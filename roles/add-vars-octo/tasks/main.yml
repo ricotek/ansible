@@ -1,0 +1,9 @@
+---
+# tasks file for add-vars-octo
+- name: Copy files onto Windows Servers
+  win_copy:
+    src: "{{ siteFiles }}"
+    dest: "{{ tempPath }}"
+
+- name: Execute a command in the remote shell, stdout goes to the specified file on the remote
+  ansible.windows.win_shell: c:\temp\add-vars.ps1 >> c:\temp\add-vars-log.txt

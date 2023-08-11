@@ -1,0 +1,73 @@
+- name: Copy "{{ site_files }}" onto Windows Servers
+  win_copy:
+    src: "{{ site_files }}"
+    dest: "{{ temp_path }}"
+
+- name: Copy "{{ site_files_api }}" onto Windows Servers
+  win_copy:
+    src: "{{ site_files_api }}"
+    dest: "{{ temp_path }}"
+
+- name: Import "{{ cert_path }}" ssl certificate be used by IIS
+  win_certificate_store:
+    path: "{{ cert_path }}"
+    file_type: pkcs12
+    password: "{{ cert_password }}"
+    store_location: LocalMachine
+    key_storage: machine
+    state: present
+
+- name: Import "{{ cert_path_api }}" ssl certificate be used by IIS
+  win_certificate_store:
+    path: "{{ cert_path_api }}"
+    file_type: pkcs12
+    password: "{{ cert_password }}"
+    store_location: LocalMachine
+    key_storage: machine
+    state: present
+
+- name: Add a HTTPS binding with host header and SNI enabled for api_endpoints 
+  win_iis_webbinding:
+    name: "{{ env + item.site }}"
+    protocol: https
+    port: 443
+    host_header: "{{ env + item.host_header }}"
+    ssl_flags: 1
+    certificate_hash: "{{ cert_hash_api }}"
+    state: present
+  loop: "{{ api_endpoints }}"
+
+- name: Add a HTTPS binding with host header and SNI enabled for legacy sites 
+  win_iis_webbinding:
+    name: "{{ item.site }}"
+    protocol: https
+    port: 443
+    host_header: "{{ env + item.host_header }}"
+    ssl_flags: 1
+    certificate_hash: "{{ cert_hash }}"
+    state: present
+  loop: "{{ legacy_endpoints }}"
+
+# - name: Add a HTTPS binding with host header and SNI enabled for www_endpoints
+#   win_iis_webbinding:
+#     name: "{{ item.site }}"
+#     protocol: https
+#     port: 443
+#     host_header: "{{ item.host_header }}"
+#     ssl_flags: 1
+#     certificate_hash: "{{ cert_hash }}"
+#     state: present
+#   loop: "{{ www_endpoints }}"
+
+- name: Add a HTTPS binding with host header and SNI enabled for ui_endpoints
+  win_iis_webbinding:
+    name: "{{ env + item.site }}"
+    protocol: https
+    port: 443
+    host_header: "{{ env + item.host_header }}"
+    ssl_flags: 1
+    certificate_hash: "{{ cert_hash }}"
+    state: present
+  loop: "{{ ui_endpoints }}"
+  
+

@@ -1,0 +1,31 @@
+# # ---
+# # # vars file for win-task-update_AppPool_creds
+AppDevGroup: AppLwr
+pools:
+#   - { poolName: 'CRM', iisUser: 'vcrx\svcCRMLWR', iisPass: '' }
+#   - { poolName: 'api.coracare.address', iisUser: 'vcrx\svcPportAddAPILWR', iisPass: '' }
+   - { poolName: 'api.coracare.drug', iisUser: 'vcrx\svcDrugAPILWR', iisPass: '' }
+#   - { poolName: 'api.coracare.claim', iisUser: 'vcrx\svcClaimAPILWR', iisPass: '' }
+#   - { poolName: 'api.coracare.document', iisUser: 'vcrx\svcDocumentAPILWR', iisPass: ''' }
+#   - { poolName: 'api.coracare.gateway', iisUser: 'vcrx\svcOcelotAPILWR', iisPass: '' }
+#   - { poolName: 'api.coracare.insurance', iisUser: 'vcrx\svcPportInsAPILWR', iisPass: '' }
+#   - { poolName: 'api.coracare.marketing', iisUser: 'vcrx\svcMarketingLWR', iisPass: '' }
+#   - { poolName: 'api.coracare.order', iisUser: 'vcrx\svcorderAPILWR', iisPass: '' }
+#   - { poolName: 'api.coracare.patient', iisUser: 'vcrx\svcPportPatAPILWR', iisPass: '' }
+#   - { poolName: 'api.coracare.patientportal.security', iisUser: 'svcPportSecAPILWR', iisPass: ''' }
+#   - { poolName: 'api.coracare.payment', iisUser: 'vcrx\svcPportPayAPILWR', iisPass: '' }
+#   - { poolName: 'api.coracare.prescriber', iisUser: 'vcrx\svcPrescriberAPILWR', iisPass: '' }
+#   - { poolName: 'api.coracare.prescription', iisUser: 'vcrx\svcPrescpAPILWR', iisPass: '' }
+#   - { poolName: 'api.prescriptions', iisUser: 'vcrx\svcPrescripLWR', iisPass: '' }
+#   - { poolName: 'coracare.accessauthorization.ui', iisUser: 'vcrx\svcAccessAuthLWR', iisPass: ''' }
+#   - { poolName: 'coracare.eligibility.api', iisUser: 'vcrx\svcCCEligLWR', iisPass: '' }
+#   - { poolName: 'coracare.pharmacy.admin.api', iisUser: 'vcrx\svcParmAdAPILWR', iisPass: '' }
+#   - { poolName: 'coracare.pharmacy.admin.ui', iisUser: 'vcrx\svcParmAdUILWR', iisPass: '' }
+#   - { poolName: 'coracare.user.admin.api', iisUser: 'vcrx\svcCCAPILWR', iisPass: '' }
+#   - { poolName: 'coracare.user.admin.ui', iisUser: 'vcrx\svcCCUILWR', iisPass: ' }
+#   - { poolName: 'CRM.BackgroundServices', iisUser: 'vcrx\svcCRMBSLWR', iisPass: '' }
+#   - { poolName: 'Iris', iisUser: 'vcrx\svcIrisLWR', iisPass: '' }
+#   - { poolName: 'PrescriptionsUI', iisUser: 'vcrx\svcPrescripUILWR', iisPass: '' }
+#   - { poolName: 'Rebates', iisUser: 'vcrx\svcRebatesLWR', iisPass: '' }
+#   - { poolName: 'vitacarerx', iisUser: 'vcrx\svcMarketingLWR', iisPass: '' }
+

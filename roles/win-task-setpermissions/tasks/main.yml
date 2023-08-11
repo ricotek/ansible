@@ -1,0 +1,9 @@
+---
+# tasks file for win-task-setpermissions
+- name: Grant full rights to "{{ path }}"
+  win_acl:
+    path: "{{ path }}"
+    user: "{{ user }}"
+    rights: Read,Write,Modify,FullControl,Delete
+    type: allow
+    state: present

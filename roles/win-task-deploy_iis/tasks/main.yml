@@ -1,0 +1,360 @@
+---
+# tasks file for win-task-deploy_iis
+# - name: Install IIS Web-Server with sub features and management tools
+#   win_feature:
+#     name: Web-Server
+#     state: present
+#     restart: yes
+#     include_sub_features: yes
+#     include_management_tools: yes
+#   register: win_feature
+
+# - name: Create directory structure
+#   ansible.windows.win_file:
+#     path: "{{ tempPath }}"
+#     state: directory
+
+# - name: Create directory structure
+#   ansible.windows.win_file:
+#     path: "{{ txmdPath }}"
+#     state: directory
+
+# - name: Create directory structure for logs
+#   ansible.windows.win_file:
+#     path: "{{ logsPath }}"
+#     state: directory
+
+# - name: Create directory structure for apps
+#   ansible.windows.win_file:
+#     path: "{{ appPath }}"
+#     state: directory
+
+# - name: Create directory structure for apis
+#   ansible.windows.win_file:
+#     path: "{{ apiPath }}"
+#     state: directory
+
+# - name: Create directory structure for files
+#   ansible.windows.win_file:
+#     path: "{{ filesPath }}"
+#     state: directory
+
+# - name: Create directory structure for web
+#   ansible.windows.win_file:
+#     path: "{{ webPath }}"
+#     state: directory
+
+# - name: Allow Modify access for IIS_IUSRS  to "{{ webPath }}"
+#   win_acl:
+#     user: IIS_IUSRS
+#     path: "{{ txmdPath }}"
+#     type: allow
+#     rights: Read,Write,Modify,Delete
+
+# - name: Set service startup mode to auto and ensure it is started
+#   ansible.windows.win_service:
+#     name: W3SVC
+#     start_mode: auto
+#     state: started
+
+# - name: Copy files onto Windows Servers
+#   win_copy:
+#     src: "{{ siteFiles }}"
+#     dest: "{{ tempPath }}"
+
+# - name: Install WinRAR package
+#   win_chocolatey:
+#     name: winrar
+#     state: present
+
+# - name: Install Notepadplusplus package
+#   win_chocolatey:
+#     name: Notepadplusplus
+#     state: present
+
+# - name: Install Newrelic-Infra Agent
+#   win_chocolatey:
+#     name: newrelic-infra
+#     state: present
+ 
+# - name: Install Vcredist2013 package
+#   win_chocolatey:
+#     name: Vcredist2013 
+#     state: present
+
+# - name: Install Nunit console runner package
+#   win_chocolatey:
+#     name: nunit-console-runner
+#     state: present
+
+# - name: Install git package
+#   win_chocolatey:
+#     name: git
+#     state: present
+
+# - name: Install wintail package
+#   win_chocolatey:
+#     name: wintail
+#     state: present
+
+# - name: Install sysinternals package
+#   win_chocolatey:
+#     name: sysinternals
+#     state: present
+
+# - name: Install octopusdeploy.tentacle package
+#   win_chocolatey:
+#     name: octopusdeploy.tentacle
+#     state: present
+
+# - name: Unzip site-files
+#   community.windows.win_unzip:
+#     src: "{{ unzipSource }}"
+#     dest: "{{ tempPath }}"    
+
+# - name: Install dotnetcore-windowshosting package 2.1.5
+#   win_chocolatey:
+#     name: dotnetcore-windowshosting
+#     version: 2.1.5
+#     pinned: yes
+#     state: present
+#     allow_multiple: yes
+
+# - name: Install dotnetcore-windowshosting package 2.2.6
+#   win_chocolatey:
+#     name: dotnetcore-windowshosting
+#     version: 2.2.6
+#     pinned: yes
+#     state: present
+#     allow_multiple: yes
+
+# - name: Install dotnetcore-windowshosting package 3.1.2
+#   win_chocolatey:
+#     name: dotnetcore-windowshosting
+#     version: 3.1.2
+#     pinned: yes
+#     state: present
+#     allow_multiple: yes
+
+# - name: Install dotnetcore-windowshosting package 3.X
+#   win_chocolatey:
+#     name: dotnetcore-windowshosting
+#     state: present
+#     allow_multiple: yes
+
+# - name: Install dotnetcore-windowshosting package 5.0
+#   win_chocolatey:
+#     name: dotnet-5.0-windowshosting
+#     state: present
+#     allow_multiple: yes
+
+# - name: Install .net4.7 package
+#   win_chocolatey:
+#     name: DotNet4.7
+#     state: present
+
+# - name: Install .net4.8 package
+#   win_chocolatey:
+#     name: dotnetfx
+#     state: present
+ 
+# - name: Install URLRewrite package
+#   win_chocolatey:
+#     name: urlrewrite 
+#     state: present
+
+# - name: Install IIS Application Request Routing package
+#   win_chocolatey:
+#     name: iis-arr
+#     state: present
+
+# - name: Install WebDeploy package
+#   win_chocolatey:
+#     name: webdeploy
+#     state: present
+
+# - name: Install latest version of nodejs package
+#   win_chocolatey:
+#     name: nodejs 
+#     state: present
+
+# - name: Install latest version of choco install iiscrypto-cli package
+#   win_chocolatey:
+#     name: iiscrypto-cli
+#     state: present
+
+# - name: Unzip services-files
+#   community.windows.win_unzip:
+#     src: "{{ unzipServicesSource }}"
+#     dest: "{{ unzipServicesDest }}"
+
+# - name: Set an environment variable for ASPNETCORE_ENVIRONMENT for "{{ dotnetcoreEnv }}"
+#   win_environment:
+#     state: present
+#     name: ASPNETCORE_ENVIRONMENT
+#     value: "{{ dotnetcoreEnv }}"
+#     level: machine
+
+# - name: Purge Default IIS Sites & AppPools
+#   win_shell: |
+#     $site = "Default Web Site" acl
+#     iisreset /stop
+#     Remove-WebAppPool -Name ".NET v2.0"
+#     Remove-WebAppPool -Name ".NET v4.5"
+#     Remove-WebAppPool -Name ".NET v4.5 Classic"
+#     Remove-WebAppPool -Name ".NET v2.0 Classic"
+#     Remove-WebAppPool -Name "Classic .NET AppPool"
+#     Remove-WebAppPool -Name DefaultAppPool
+#     Remove-Website -Name $site
+
+# - name: Set timezone to (GMT-05:00) Eastern Time (US and Canada)
+#   win_timezone:
+#     timezone: Eastern Standard Time
+
+# - name: Grant full rights to "{{ txmdPath }}" for IIS_IUSRS group
+#   win_acl:
+#     user: IIS_IUSRS
+#     path: "{{ txmdPath }}"
+#     type: allow
+#     rights: Read,Write,Modify,Delete
+
+# - name: Set service startup mode to auto and ensure it is started
+#   ansible.windows.win_service:
+#     name: W3SVC
+#     start_mode: auto
+#     state: started
+
+# - name: Import *.coracare.vitacarerx.com certificate be used by IIS
+#   win_certificate_store:
+#     path: "{{ coracareCertPath }}"
+#     file_type: pkcs12
+#     password: "{{ certPasswd }}"
+#     store_location: LocalMachine
+#     key_storage: machine
+#     state: present
+  
+# - name: Import *.api.coracare.vitacarerx.com certificate be used by IIS
+#   win_certificate_store:
+#     path: "{{ apiCertPath }}"
+#     file_type: pkcs12
+#     password: "{{ certPasswd }}"
+#     store_location: LocalMachine
+#     key_storage: machine
+#     state: present
+
+# - name: Add "{{ AppDevGrp }}" to a local IIS group
+#   win_group_membership:
+#     name: IIS_IUSRS
+#     members:
+#       - "{{ iisUser1 }}"
+#     state: present
+
+# - name: Add a local and domain user to a local Remote Desktop Users group
+#   win_group_membership:
+#     name: Remote Desktop Users
+#     members:
+#       - "{{ domainAdmins }}"
+#       - "{{ devopsAdmins }}"
+#       - "{{ devAdmins }}"
+#     state: present
+
+# - name: Add a local and domain user to a local Administrator group
+#   win_group_membership:
+#     name: Administrators
+#     members:
+#       - "{{ domainAdmins }}"
+#       - "{{ devopsAdmins }}"
+#       - "{{ qaAdmins }}"
+#       - "{{ devAdmins }}"
+#       - "{{ svcDeploy }}"
+#     state: present
+
+# - name: Firewall rule to allow HTTP on TCP port 80
+#   win_firewall_rule:
+#     name: HTTP
+#     localport: 80
+#     action: allow
+#     direction: in
+#     protocol: tcp
+#     profile: domain,private
+#     state: present
+#     enabled: yes
+
+# - name: Firewall rule to allow HTTPS on TCP port 443
+#   win_firewall_rule:
+#     name: HTTPS
+#     localport: 443
+#     action: allow
+#     direction: in
+#     protocol: tcp
+#     profile: domain,private
+#     state: present
+#     enabled: yes
+
+# - name: Firewall rule to allow HTTPS on TCP port 10933
+#   win_firewall_rule:
+#     name: HTTPS
+#     localport: 10933
+#     action: allow
+#     direction: in
+#     protocol: tcp
+#     profile: domain,private
+#     state: present
+#     enabled: yes
+
+# - name: Grant full rights to C:\TXMD\ for SvcDeploy acct
+#   win_acl:
+#     path: C:\TXMD\
+#     user: "{{ svcDeploy }}"
+#     rights: FullControl
+#     type: allow
+#     state: present
+#     inherit: ContainerInherit, ObjectInherit
+#     propagation: 'None'
+
+# - name: Add IIS_IUSRS allow rights
+#   ansible.windows.win_acl:
+#     path: "{{ logsPath }}"
+#     user: IIS_IUSRS
+#     rights: FullControl
+#     type: allow
+#     state: present
+#     inherit: ContainerInherit, ObjectInherit
+#     propagation: 'None'
+
+# - name: Create a new service named vps.rxintake.surescripts.service
+#   win_service:
+#     name: vps.rxintake.surescripts.service
+#     path: C:\TXMD\Services\vps.rxintake.surescripts.service\vps.rxintake.surescripts.worker.exe
+#     display_name: vps.rxintake.surescripts.service
+#     description: This service is used to get order responses from pharmacies.
+
+# - name: Set the log on user to a domain account for TXMD.ScriptsEngine.SureScriptsService
+#   win_service:
+#     name: vps.rxintake.surescripts.service
+#     state: stopped
+#     username: "{{ sureScriptsUser }}"
+#     password:  "{{ sureScriptsPasswd }}"
+
+# - name: Grant domain account the SeServiceLogonRight user right
+#   ansible.windows.win_user_right:
+#     name: SeServiceLogonRight
+#     users:
+#     - vcrx\svcdeploy
+#     action: add
+
+# - name: Set service startup mode to auto and ensure it is started
+#   ansible.windows.win_service:
+#     name: W3SVC
+#     start_mode: auto
+#     state: started
+
+# - name: Add WWW WebShare
+#   ansible.windows.win_share:
+#     name: WWW
+#     description: WWW WebShare
+#     path: C:\TXMD\
+#     list: no
+#     full: Administrators
+#     read: Everyone
+

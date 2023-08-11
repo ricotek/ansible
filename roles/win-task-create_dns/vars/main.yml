@@ -1,0 +1,6 @@
+---
+# vars file for win-task-create_dns
+recordName: gxd-users
+recordType: "A"
+recordValue: "10.0.152.189"
+dnsZone: vitacarerx.com

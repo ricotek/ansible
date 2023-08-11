@@ -1,0 +1,12 @@
+---
+# tasks file for win-task-update_passwd
+- name: Update Password for "{{ svcAcct }}"
+  community.windows.win_domain_user:
+    name: "{{ svcAcct }}"
+    domain_server: WIN-O4GUMG63OL4.vcrx.internal
+    domain_username: svcansible@VCRX.INTERNAL
+    domain_password: 9^x8yHPuY*jt16qT
+    password: "{{ password }}"
+    account_locked: no
+    password_expired: no
+    state: present

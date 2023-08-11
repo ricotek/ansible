@@ -1,0 +1,6 @@
+---
+# vars file for win-task-copy-files
+siteFiles: site-files/site-files.zip
+tempPath: c:\temp
+unzipSource: C:\temp\site-files.zip
+

@@ -1,0 +1,6 @@
+---
+# tasks file for win-task-set_timezone
+  - name: Set timezone to (GMT-05:00) Eastern Time (US and Canada)
+    win_timezone:
+      timezone: Eastern Standard Time
+

@@ -1,0 +1,7 @@
+dns_domain_name: vcrx.internal
+hostname: AW-VP-GX-IS-001
+domain_admin_user: "{{ lookup('amazon.aws.aws_secret', 'ansible_secrets.ansible_user', region='us-east-1', nested=true, on_missing='error') }}"
+domain_admin_password: "{{ lookup('amazon.aws.aws_secret', 'ansible_secrets.ansible_password', region='us-east-1', nested=true, on_missing='error') }}"
+domain_ou_path: "OU=NonProdApp,OU=Servers,OU=vcrx,DC=vcrx,DC=internal"
+state: domain
+register: domain_state

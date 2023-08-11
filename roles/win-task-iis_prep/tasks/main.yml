@@ -1,0 +1,50 @@
+- name: Import *.coracare.vitacarerx.com certificate be used by IIS
+  win_certificate_store:
+    path: "{{ coracareCertPath }}"
+    file_type: pkcs12
+    password: "{{ certPasswd }}"
+    store_location: LocalMachine
+    key_storage: machine
+    state: present
+  
+- name: Import *.api.coracare.vitacarerx.com certificate be used by IIS
+  win_certificate_store:
+    path: "{{ apiCertPath }}"
+    file_type: pkcs12
+    password: "{{ certPasswd }}"
+    store_location: LocalMachine
+    key_storage: machine
+    state: present
+
+- name: Firewall rule to allow HTTP on TCP port 80
+  win_firewall_rule:
+    name: HTTP
+    localport: 80
+    action: allow
+    direction: in
+    protocol: tcp
+    profile: domain,private
+    state: present
+    enabled: yes
+
+- name: Firewall rule to allow HTTPS on TCP port 443
+  win_firewall_rule:
+    name: HTTPS
+    localport: 443
+    action: allow
+    direction: in
+    protocol: tcp
+    profile: domain,private
+    state: present
+    enabled: yes
+
+- name: Firewall rule to allow HTTPS on TCP port 10933
+  win_firewall_rule:
+    name: HTTPS
+    localport: 10933
+    action: allow
+    direction: in
+    protocol: tcp
+    profile: domain,private
+    state: present
+    enabled: yes

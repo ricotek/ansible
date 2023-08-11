@@ -1,0 +1,32 @@
+---
+ansible_user: "{{ lookup('amazon.aws.aws_secret', 'ansible_secrets.ansible_user', region='us-east-1', nested=true, on_missing='error') }}"
+ansible_password: "{{ lookup('amazon.aws.aws_secret', 'ansible_secrets.ansible_password', region='us-east-1', nested=true, on_missing='error') }}"
+
+## credesntials for local admin on ami images
+# ansible_user: Administrator
+# ansible_password: myTempPassword123!
+
+ansible_port: 5986
+ansible_connection: winrm
+ansible_winrm_server_cert_validation: ignore
+ansible_python_interpreter: /usr/bin/python3
+
+# Use this for configuring with local admin credentials
+ansible_winrm_transport: ntlm
+
+domainServer: WIN-O4GUMG63OL4.vcrx.internal
+domainUsername: "{{ lookup('amazon.aws.aws_secret', 'ansible_secrets.domainUsername', region='us-east-1', nested=true, on_missing='error') }}"
+domainPassword: "{{ lookup('amazon.aws.aws_secret', 'ansible_secrets.domainPassword', region='us-east-1', nested=true, on_missing='error') }}"
+domain: vcrx.internal 
+
+# aws creds
+access_key: "{{ lookup('amazon.aws.aws_secret', 'ansible_secrets.access_key', region='us-east-1', nested=true, on_missing='error') }}"
+secret_key: "{{ lookup('amazon.aws.aws_secret', 'ansible_secrets.secret_key', region='us-east-1', nested=true, on_missing='error') }}"
+region: us-east-1
+
+# creds for svc accts:
+sureScriptsPasswd: "{{ lookup('amazon.aws.aws_secret', 'ansible_secrets.sureScriptsPasswd', region='us-east-1', nested=true, on_missing='error') }}"
+IrisAgentPasswd: "{{ lookup('amazon.aws.aws_secret', 'ansible_secrets.IrisAgentPasswd', region='us-east-1', nested=true, on_missing='error') }}"
+
+# octo api key
+octopusAPIKey: "{{ lookup('amazon.aws.aws_secret', 'ansible_secrets.octoApiKey', region='us-east-1', nested=true, on_missing='error') }}"

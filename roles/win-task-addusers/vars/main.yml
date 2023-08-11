@@ -1,0 +1,4 @@
+groupName: AppTaco
+users:
+  - { name: 'svcCCAPIDEV', password: '', descrip: 'CoraCare User API' }
+

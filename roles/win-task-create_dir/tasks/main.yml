@@ -1,0 +1,11 @@
+---
+# tasks file for win-task-create_dir
+- name: Create directory structure
+  ansible.windows.win_file:
+    path: "{{ path2 }}"
+    state: directory
+
+- name: Create directory structure
+  ansible.windows.win_file:
+    path: "{{ path2 }}"
+    state: directory

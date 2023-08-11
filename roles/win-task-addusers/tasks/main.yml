@@ -1,0 +1,17 @@
+- name: Add Accounts
+  community.windows.win_domain_user:
+    name:  "{{ item.name }}"
+    password: "{{ item.password }}"
+    domain_server: "{{ domainServer }}"
+    domain_username: "{{ domainUsername }}"
+    domain_password: "{{ domainPassword }}"
+    upn: "{{ item.name + '@' + domain }}"
+    spn: "{{ item.name }}"
+    password_expired: no
+    account_locked: no
+    description: "{{ item.descrip }}"
+    path: "{{ ou }}"
+    state: present
+    groups_action: add
+    groups: "{{ groupName }}"
+  loop: "{{ users }}"

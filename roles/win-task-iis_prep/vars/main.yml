@@ -1,0 +1,31 @@
+---
+# vars file for wintask-iis_prep
+iisUser1: vcrx\AppLWR
+IrisAgentUser: vcrx\svcIrisLWR
+IrisAgentPasswd: "somepasswd"
+sureScriptsUser: vcrx\svcScriptEngLWR
+sureScriptsPasswd: "somepasswd"
+domainAdmins: vcrx\Domain Admins
+devopsAdmins: vcrx\IT DevOps Admins
+devAdmins: vcrx\IT Developers
+svcDeploy: vcrx\svcDeploy
+siteFiles: site-files/site-files.zip
+unzipSource: C:\temp\site-files.zip
+unzipServicesSource: C:\temp\site-files\Services.zip
+unzipServicesDest: C:\TXMD\
+tempPath: C:\temp\
+txmdPath: C:\TXMD
+appPath: C:\TXMD\APPS
+apiPath: C:\TXMD\API
+webPath: C:\TXMD\WEB
+coracareCertPath: C:\temp\coracare.vitacarerx.com.pfx
+apiCertPath: C:\temp\api.coracare.vitacarerx.com.pfx
+certPasswd: Cw4Nh6tbxHS2
+dotnetcoreEnv: GXD
+logsPath: C:\CoraCareLogs
+svcPath: C:\TXMD\Services
+filesPath: C:\TXMD\Files
+svcName: TXMD.IrisAgent
+IrisAgentSvcPath: C:\TXMD\Services\IrisAgent\IrisAgentService.exe
+IrisAgentPath: C:\TXMD\FILES\IrisAgent\
+IrisAgentDbSrc: site-files/IrisAgent/

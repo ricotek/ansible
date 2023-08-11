@@ -1,0 +1,11 @@
+---
+#  tasks file for win-task-unlock_acct
+- name: Unlock "{{ svcAcct }}" 
+  community.windows.win_domain_user:
+    name: "{{ svcAcct }}"
+    domain_server: WIN-O4GUMG63OL4.vcrx.internal
+    domain_username: svcansible@VCRX.INTERNAL
+    domain_password: 9^x8yHPuY*jt16qT
+    account_locked: no
+    password_expired: no
+    state: present

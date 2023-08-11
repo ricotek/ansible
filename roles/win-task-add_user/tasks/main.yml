@@ -1,0 +1,16 @@
+- name: Add Account
+  community.windows.win_domain_user:
+    name: "{{ svcAcct }}"
+    domain_server: "{{ domainServer }}"
+    domain_username: "{{ domainUsername }}"
+    domain_password: "{{ domainPassword }}"
+    password: "{{ password }}"
+    upn: "{{ svcAcct + '@' + domain }}"
+    spn:  "{{ svcAcct }}"
+    password_expired: no
+    account_locked: no
+    description: "{{ description }}"
+    path: "{{ ou }}"
+    state: present
+    groups_action: add
+    groups: "{{ groupName }}"

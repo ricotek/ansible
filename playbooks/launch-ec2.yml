@@ -1,0 +1,6 @@
+---
+- name: Run Playbook
+  hosts: localhost
+  gather_facts: true
+  roles:
+    - launch-ec2

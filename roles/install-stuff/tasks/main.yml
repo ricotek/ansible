@@ -1,0 +1,6 @@
+---
+# tasks file for install-stuff
+- name: Install Newrelic-Infra Agent
+  win_chocolatey:
+    name: newrelic-infra
+    state: absent

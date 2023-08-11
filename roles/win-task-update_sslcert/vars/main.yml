@@ -1,0 +1,34 @@
+# vars file for win-task-update_sslcert
+cert_path: C:\temp\coracare.vitacarerx.com.pfx
+cert_path_api: C:\temp\api.coracare.vitacarerx.com.pfx
+cert_password: Think01
+cert_hash: 2b97ea9ccb27a602396468baf430144590935c1f
+cert_hash_api: 5cd0fa23c83ae26f0e5bd6e55ed40683aa7207a2
+site_files: site-files/coracare.vitacarerx.com.pfx
+site_files_api: site-files/api.coracare.vitacarerx.com.pfx
+temp_path: C:\temp\
+env: stage-
+envDot: env.
+api_endpoints:
+  - { host_header: 'drug.api.coracare.vitacarerx.com', site: 'drug.api.coracare.vitacarerx.com' }
+  - { host_header: 'claim.api.coracare.vitacarerx.com', site: 'claim.api.coracare.vitacarerx.com' }
+  - { host_header: 'prescriptions.api.coracare.vitacarerx.com', site: 'prescriptions.api.coracare.vitacarerx.com' }
+  - { host_header: 'users.api.coracare.vitacarerx.com', site: 'users.api.coracare.vitacarerx.com' }
+  - { host_header: 'prescriber.api.coracare.vitacarerx.com', site: 'prescriber.api.coracare.vitacarerx.com' }
+  - { host_header: 'drug.api.coracare.vitacarerx.com', site: 'drug.api.coracare.vitacarerx.com' }
+
+legacy_endpoints:
+   - { host_header: 'crm.coracare.vitacarerx.com', site: 'CRM' }
+   - { host_header: 'crmbs.coracare.vitacarerx.com', site: 'CRM.BackgroundServices' }
+
+ui_endpoints:
+#   - { host_header: 'accessauthorization.coracare.vitacarerx.com', site: 'accessauthorization.coracare.vitacarerx.com' }
+   - { host_header: 'adverseevents.coracare.vitacarerx.com', site: 'adverseevents.coracare.vitacarerx.com' }
+#   - { host_header: 'pharmacyadmin.coracare.vitacarerx.com', site: 'pharmacyadmin.coracare.vitacarerx.com' }
+   
+www_endpoints:
+  #   - { host_header: 'www.qa.vitacarerx.com', site: 'vitacarerx' }
+  #  - { host_header: 'cofy.vitacarerx.com', site: 'vitacarerx' }
+   - { host_header: 'stage.coracare.vitacarerx.com', site: 'stage.coracare.vitacarerx.com' }
+
+

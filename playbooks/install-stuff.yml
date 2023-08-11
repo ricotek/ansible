@@ -1,0 +1,6 @@
+---
+- name: Run Playbook
+  hosts: iislwr
+  gather_facts: false
+  roles:
+  - install-stuff

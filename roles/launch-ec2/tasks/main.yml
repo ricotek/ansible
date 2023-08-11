@@ -1,0 +1,31 @@
+- name: Manage an instance and EBS volume
+  amazon.aws.ec2_instance:
+    access_key: "{{ access_key }}"
+    secret_key: "{{ secret_key }}"
+    state: "{{ state }}"
+    name: "{{ name }}"
+    region: "{{ region }}"
+    key_name: "{{ key_name }}"
+    security_group: "{{ security_group }}"
+    vpc_subnet_id: "{{ vpc_subnet_id }}"
+    instance_type: "{{ instance_type }}"
+    image_id: "{{ image_id }}"
+    user_data: "{{ lookup('file','user_data_iis.txt') }}"
+    wait: yes
+    wait_timeout: 500
+    tags:
+      Purpose: "{{ purpose }}"
+      Environment: "{{ environment }}"
+      Application: "{{ application }}"
+      Patch Group: "{ {patch_group }}"
+    volumes:
+      - device_name: /dev/sda1
+        ebs:
+          volume_size: "{{ volume_size }}"
+          volume_type: gp2
+          delete_on_termination: true
+
+- name: Sleep for 300 seconds and continue with play
+  ansible.builtin.wait_for:
+    timeout: 300
+  delegate_to: localhost

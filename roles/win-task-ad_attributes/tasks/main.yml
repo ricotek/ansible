@@ -1,0 +1,7 @@
+- name: Get all properties for the specified account using its DistinguishedName
+  community.windows.win_domain_object_info:
+    identity: "{{ ou }}"
+    properties: '*'
+    domain_server: "{{ domainServer }}"
+    domain_username: "{{ domainUsername }}"
+    domain_password: "{{ domainPassword }}"

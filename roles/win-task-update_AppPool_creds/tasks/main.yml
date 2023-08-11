@@ -1,0 +1,19 @@
+---
+# tasks file for win-task-update_AppPool_creds
+- name: Add "{{ AppDevGrp }}" to a local IIS group
+  win_group_membership:
+    name: IIS_IUSRS
+    members:
+      - "{{ AppDevGroup }}"
+    state: present
+
+- name: Manage child element and set identity of application pool
+  community.windows.win_iis_webapppool:
+    name: "{{ item.poolName }}"
+    state: restarted
+    attributes:
+      processModel.identityType: SpecificUser
+      processModel.userName: '{{ item.iisUser }}'
+      processModel.password: '{{ item.iisPass }}'
+      processModel.loadUserProfile: true
+  loop: "{{ pools }}"

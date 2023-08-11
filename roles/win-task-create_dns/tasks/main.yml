@@ -1,0 +1,8 @@
+---
+# tasks file for win-task-create_dns
+- name: Create server alias or record
+  community.windows.win_dns_record:
+    name: "{{ recordName }}"
+    type: "{{ recordType }}"
+    value: "{{ recordValue }}"
+    zone: "{{ dnsZone }}"

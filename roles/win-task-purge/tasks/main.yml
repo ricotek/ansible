@@ -1,0 +1,15 @@
+# tasks file for win-task-purge
+- name: Remove directory structure
+  ansible.windows.win_file:
+    path: "{{ path1 }}"
+    state: absent
+
+# - name: Remove directory structure
+#   ansible.windows.win_file:
+#     path: "{{ path2 }}"
+#     state: absent
+
+# - name: Remove directory structure
+#   ansible.windows.win_file:
+#     path: "{{ path3 }}"
+#     state: absent

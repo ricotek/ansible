@@ -1,0 +1,12 @@
+---
+# tasks file for win-task-uninstall
+  - name: Stop a service
+    ansible.windows.win_service:
+      name: newrelic-infra
+      start_mode: manual
+      state: stop
+
+  - name: Uninstall Newrelic-Infra Agent
+    win_chocolatey:
+      name: newrelic-infra
+      state: absent

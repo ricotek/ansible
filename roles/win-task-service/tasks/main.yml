@@ -1,0 +1,7 @@
+---
+# tasks file for win-task-service
+- name: Set service startup mode to auto and ensure it is started
+  ansible.windows.win_service:
+    name: AmazonCloudWatchAgent
+    start_mode: disabled
+    state: stopped

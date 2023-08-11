@@ -1,0 +1,6 @@
+---
+- name: Run Playbook
+  hosts: winec2
+  gather_facts: true
+  roles:
+    - win-task-join_domain
