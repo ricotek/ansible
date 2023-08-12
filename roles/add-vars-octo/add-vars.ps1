@@ -1,6 +1,6 @@
 function Set-OctopusVariable {
     param(
-        $octopusURL = "https://octopus.lwr.vcrx.net/", # Octopus Server URL
+        $octopusURL = "https://xx/", # Octopus Server URL
         $octopusAPIKey = "",               # API key goes here
         $projectName = "prescriptions.api",                        # Replace with your project name
         $spaceName = "Default",                   # Replace with the name of the space you are working in
