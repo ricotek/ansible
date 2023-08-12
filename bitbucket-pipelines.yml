@@ -8,7 +8,7 @@ definitions:
     - &ansible-pipe-ref vitacarerx/pipe-ansible:1.2.7
   scripts:
     - &ecrLogin pip3 install awscli &&
-      AWS_ACCESS_KEY_ID=$DATAECR_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$DATAECR_AWS_SECRET_ACCESS_KEY aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 313424411561.dkr.ecr.us-east-1.amazonaws.com
+      AWS_ACCESS_KEY_ID=$DATAECR_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$DATAECR_AWS_SECRET_ACCESS_KEY aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin xxdkr.ecr.us-east-1.amazonaws.com
     - &exportOctoApiKey echo export OCTOPUS_APIKEY=$OCTOPUS_APIKEY >> shared_vars.sh
     - &sharedVars source shared_vars.sh
     - &runAnsible
