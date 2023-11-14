@@ -6,29 +6,24 @@ key_name: vps-master-iis
 instance_type: m5.2xlarge
 vpc_subnet_id: subnet-07eea087cfc817316
 security_group: sg-029496bef3f8d8598
-Environment: GXD
+Environment: DEV
 state: present
 
-# custom packer ami below
-#image_id: ami-0e911a296f8a590d8
-
 # custom ansible ami below
-# image_id: ami-0a900953c5b61ffc8 # original image used for GXD IIS host
-image_id: ami-01f5fc8dfbd477c8d # updated image on 6-27-23 installed two runtimes needed for rebate.api & prescriptions.api & saved to c:\temp
+image_id: ami-
 
-# aws windows ami is below
-#image_id: ami-0ab05a04b66a879af
-name: AW-VP-GD-IS-001
+# hostname and disk size
+name: AW-XXX
 volume_size: 200
 
 # tags
-environment: GXD
-application: CRM
+environment: DEV
+application: TR
 patch_group: Windows
 purpose: IIS
 
 # Domain details
-domain_name: vcrx
+domain_name: 
 domain_username: 
 domain_password: 
 

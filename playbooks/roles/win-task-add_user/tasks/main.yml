@@ -1,4 +1,4 @@
-- name: Add Account
+- name: Add-Modify Accounts
   community.windows.win_domain_user:
     name: "{{ svcAcct }}"
     domain_server: "{{ domainServer }}"
@@ -7,7 +7,7 @@
     password: "{{ password }}"
     upn: "{{ svcAcct + '@' + domain }}"
     spn:  "{{ svcAcct }}"
-    password_expired: no
+    password_expired: yes
     account_locked: no
     description: "{{ description }}"
     path: "{{ ou }}"
